@@ -26,8 +26,8 @@ public class PartieInteresseCreateDTO {
     private String bic;
     private Boolean actif;
 
-    private String typeClient; // CLIENT / FOURNISSEUR / TRANSPORTEUR / CHAUFFEUR / COMMISSIONNAIRE / BANQUE
-    private Boolean prestataire; // pour transporteur
+    private String typeClient;
+    private Boolean prestataire;
     private String nom;
     private String prenom;
     private String numeroCin;

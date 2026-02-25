@@ -73,7 +73,7 @@ h2 {
   border-color: #dc3545;
 }
 
-// Styles pour le modal
+
 .modal {
   position: fixed;
   top: 0;
@@ -135,7 +135,7 @@ h2 {
   text-align: right;
 }
 
-// Animation fade
+
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);

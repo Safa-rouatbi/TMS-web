@@ -19,13 +19,13 @@ public class PartieInteresseController {
 
     private final PartieInteresseService service;
 
-    // CREATE
+
     @PostMapping
     public ResponseEntity<PartieInteresseReadDTO> create(@RequestBody PartieInteresseCreateDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
-    // READ - GET all ou filtré par type
+
     @GetMapping
     public List<PartieInteresseReadDTO> getAll(@RequestParam(required = false) String type) {
         if (type != null && !type.isEmpty()) {
@@ -34,20 +34,20 @@ public class PartieInteresseController {
         return service.getAll();
     }
 
-    // READ - GET by ID
+
     @GetMapping("/{id}")
     public PartieInteresseReadDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-    // UPDATE - PUT sécurisé (champs sensibles protégés, mise à jour partielle)
+
     @PutMapping("/{id}")
     public PartieInteresseReadDTO update(@PathVariable Long id,
                                          @RequestBody PartieInteresseUpdateDTO dto) {
         return service.update(id, dto);
     }
 
-    // DELETE logique (soft delete) — ne supprime jamais physiquement
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> softDelete(@PathVariable Long id) {
         service.softDelete(id);

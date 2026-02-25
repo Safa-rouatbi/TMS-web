@@ -9,7 +9,7 @@ import { PartieInteresseCreateDTO } from '../../models/partie-interesse.model';
 })
 export class PartieInteresseFormComponent implements OnInit {
   @Output() formClosed = new EventEmitter<void>();
-  
+
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -46,7 +46,7 @@ export class PartieInteresseFormComponent implements OnInit {
     priseRdvObligatoire: false
   };
 
-  // Types disponibles
+
   typesDisponibles = [
     { value: 'CLIENT', label: 'Client' },
     { value: 'FOURNISSEUR', label: 'Fournisseur' },
@@ -71,7 +71,7 @@ export class PartieInteresseFormComponent implements OnInit {
         this.successMessage = 'Partie intéressée créée avec succès !';
         this.isLoading = false;
         this.resetForm();
-        
+
         // Retour à la liste après 2 secondes
         setTimeout(() => {
           this.formClosed.emit();

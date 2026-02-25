@@ -7,16 +7,16 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
-// Import routing module
+
 import { AppRoutingModule } from './app-routing.module';
 
-// Import app component
+
 import { AppComponent } from './app.component';
 
-// Import containers
+
 import { DefaultFooterComponent, DefaultHeaderComponent, DefaultLayoutComponent } from './containers';
 
-// Import components
+
 import { PartieInteresseListComponent } from './components/partie-interesse-list/partie-interesse-list.component';
 import { PartieInteresseFormComponent } from './components/partie-interesse-form/partie-interesse-form.component';
 

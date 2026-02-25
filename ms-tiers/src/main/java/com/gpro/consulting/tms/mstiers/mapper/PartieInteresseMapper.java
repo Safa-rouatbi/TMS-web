@@ -11,7 +11,7 @@ public class PartieInteresseMapper {
     public static PartieInteresseEntite toEntity(PartieInteresseCreateDTO dto) {
         PartieInteresseEntite entity = new PartieInteresseEntite();
 
-        // champs communs
+
         entity.setReference(dto.getReference());
         entity.setRaisonSociale(dto.getRaisonSociale());
         entity.setAbreviation(dto.getAbreviation());
@@ -36,12 +36,12 @@ public class PartieInteresseMapper {
         entity.setDateCreation(LocalDateTime.now());
         entity.setBlSuppression(false);
 
-        // type spécifique
+
         if (dto.getTypeClient() != null) {
             entity.setTypeClient(dto.getTypeClient());
 
             switch (dto.getTypeClient()) {
-                case "CLIENT", "FOURNISSEUR" -> { /* pas de champs supplémentaires */ }
+                case "CLIENT", "FOURNISSEUR" -> {  }
 
                 case "TRANSPORTEUR" -> {
                     entity.setPrestataire(true);
@@ -93,29 +93,24 @@ public class PartieInteresseMapper {
         return dto;
     }
 
-    /**
-     * Applique les champs autorisés du DTO de mise à jour sur l'entité existante.
-     * Seuls les champs non-null sont appliqués (mise à jour partielle).
-     * Les champs sensibles (id, dateCreation, reference, matrFiscal, etc.) sont ignorés.
-     * dateModification est mis à jour automatiquement.
-     */
+
     public static void applyUpdate(PartieInteresseEntite entity, PartieInteresseUpdateDTO dto) {
 
-        // Informations générales
+
         if (dto.getRaisonSociale() != null)        entity.setRaisonSociale(dto.getRaisonSociale());
         if (dto.getAbreviation() != null)          entity.setAbreviation(dto.getAbreviation());
         if (dto.getActivite() != null)             entity.setActivite(dto.getActivite());
         if (dto.getObservation() != null)          entity.setObservation(dto.getObservation());
         if (dto.getActif() != null)                entity.setActif(dto.getActif());
 
-        // Contact
+
         if (dto.getEmail() != null)                entity.setEmail(dto.getEmail());
         if (dto.getEmail2() != null)               entity.setEmail2(dto.getEmail2());
         if (dto.getTelephone() != null)            entity.setTelephone(dto.getTelephone());
         if (dto.getTelephoneMobile() != null)      entity.setTelephoneMobile(dto.getTelephoneMobile());
         if (dto.getFax() != null)                  entity.setFax(dto.getFax());
 
-        // Adresses
+
         if (dto.getAdresse() != null)              entity.setAdresse(dto.getAdresse());
         if (dto.getAdresseFacturation() != null)   entity.setAdresseFacturation(dto.getAdresseFacturation());
         if (dto.getAdresseLivraison() != null)     entity.setAdresseLivraison(dto.getAdresseLivraison());
@@ -128,7 +123,7 @@ public class PartieInteresseMapper {
         if (dto.getCodePostalLivraison() != null)  entity.setCodePostalLivraison(dto.getCodePostalLivraison());
         if (dto.getRueLivraison() != null)         entity.setRueLivraison(dto.getRueLivraison());
 
-        // Comptabilité / Paiement
+
         if (dto.getCategorieTva() != null)         entity.setCategorieTva(dto.getCategorieTva());
         if (dto.getModePaiement() != null)         entity.setModePaiement(dto.getModePaiement());
         if (dto.getModalitePaiement() != null)     entity.setModalitePaiement(dto.getModalitePaiement());
@@ -136,29 +131,29 @@ public class PartieInteresseMapper {
         if (dto.getIban() != null)                 entity.setIban(dto.getIban());
         if (dto.getBic() != null)                  entity.setBic(dto.getBic());
 
-        // Interlocuteur
+
         if (dto.getInterlocuteur() != null)        entity.setInterlocuteur(dto.getInterlocuteur());
         if (dto.getEmailInterlocuteur() != null)   entity.setEmailInterlocuteur(dto.getEmailInterlocuteur());
         if (dto.getTelInterlocuteur() != null)     entity.setTelInterlocuteur(dto.getTelInterlocuteur());
 
-        // CHAUFFEUR
+
         if (dto.getNom() != null)                  entity.setNom(dto.getNom());
         if (dto.getPrenom() != null)               entity.setPrenom(dto.getPrenom());
         if (dto.getNumeroCin() != null)            entity.setNumeroCin(dto.getNumeroCin());
         if (dto.getNumeroLicence() != null)        entity.setNumeroLicence(dto.getNumeroLicence());
 
-        // COMMISSIONNAIRE
+
         if (dto.getNumeroLicenceComissionnaire() != null)
             entity.setNumeroLicenceComissionnaire(dto.getNumeroLicenceComissionnaire());
         if (dto.getDateEcheanceLicenceComissionnaire() != null)
             entity.setDateEcheanceLicenceComissionnaire(dto.getDateEcheanceLicenceComissionnaire());
 
-        // TRANSPORTEUR
+
         if (dto.getGrilleTarifaire() != null)      entity.setGrilleTarifaire(dto.getGrilleTarifaire());
         if (dto.getPriseRdvObligatoire() != null)  entity.setPriseRdvObligatoire(dto.getPriseRdvObligatoire());
         if (dto.getPrestataire() != null)          entity.setPrestataire(dto.getPrestataire());
 
-        // Audit automatique
+
         entity.setDateModification(LocalDateTime.now());
     }
 }

@@ -22,7 +22,7 @@
         </div>
 
 
-        <!-- Formulaire de modification simple -->
+
         <form (ngSubmit)="onUpdateSubmit()" *ngIf="partieToUpdate">
           <div class="row">
             <div class="col-md-6 mb-3">
@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          <!-- Boutons -->
+
           <div class="row mt-4">
             <div class="col-12">
               <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading">
@@ -70,9 +70,9 @@
     </div>
   </div>
 
-  <!-- Liste des parties intéressées (masqué quand un formulaire est affiché) -->
+
   <div *ngIf="!showForm && !showUpdateForm">
-    <!-- Messages -->
+
     <div class="alert alert-danger" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
@@ -87,7 +87,7 @@
       </div>
     </div>
 
-  <!-- Filtre par type -->
+
   <div class="row mb-3">
     <div class="col-md-4">
       <label for="typeFilter" class="form-label">Filtrer par type:</label>
@@ -107,7 +107,7 @@
     </div>
   </div>
 
-  <!-- Message d'erreur -->
+
   <div class="row mb-3" *ngIf="errorMessage">
     <div class="col">
       <div class="alert alert-danger" role="alert">
@@ -116,7 +116,7 @@
     </div>
   </div>
 
-  <!-- Chargement -->
+
   <div class="row" *ngIf="isLoading">
     <div class="col text-center">
       <div class="spinner-border" role="status">
@@ -126,7 +126,7 @@
     </div>
   </div>
 
-  <!-- Tableau des parties intéressées -->
+
   <div class="row" *ngIf="!isLoading">
     <div class="col">
       <div class="table-responsive">
@@ -180,7 +180,7 @@
     </div>
   </div>
 
-  <!-- Bouton ajouter -->
+
     <div class="row mt-4">
       <div class="col">
         <button class="btn btn-primary" (click)="addPartie()">
@@ -190,7 +190,7 @@
     </div>
   </div>
 
-  <!-- Modal pour voir les détails -->
+
   <div class="modal fade" [class.show]="showDetailsModal" [style.display]="showDetailsModal ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -300,10 +300,10 @@
             </div>
           </div>
 
-          <!-- Champs spécifiques CHAUFFEUR -->
+
           <div class="row mt-3" *ngIf="partieToView.typeClient === 'CHAUFFEUR'">
             <div class="col-12">
-              <h6 class="text-primary">👨‍✈️ Informations Chauffeur</h6>
+              <h6 class="text-primary">Informations Chauffeur</h6>
               <div class="row">
                 <div class="col-md-6">
                   <strong>Nom:</strong> {{ partieToView.nom || '-' }}
@@ -321,10 +321,10 @@
             </div>
           </div>
 
-          <!-- Champs spécifiques TRANSPORTEUR -->
+
           <div class="row mt-3" *ngIf="partieToView.typeClient === 'TRANSPORTEUR'">
             <div class="col-12">
-              <h6 class="text-primary">🚚 Informations Transporteur</h6>
+              <h6 class="text-primary">Informations Transporteur</h6>
               <div class="row">
                 <div class="col-md-6">
                   <strong>Prestataire:</strong>
@@ -341,10 +341,10 @@
             </div>
           </div>
 
-          <!-- Champs spécifiques COMMISSIONNAIRE -->
+
           <div class="row mt-3" *ngIf="partieToView.typeClient === 'COMMISSIONNAIRE'">
             <div class="col-12">
-              <h6 class="text-primary">📋 Informations Commissionnaire</h6>
+              <h6 class="text-primary">Informations Commissionnaire</h6>
               <div class="row">
                 <div class="col-md-6">
                   <strong>N° Licence:</strong> {{ partieToView.numeroLicenceComissionnaire || '-' }}

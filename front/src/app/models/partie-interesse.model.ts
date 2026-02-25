@@ -66,21 +66,21 @@ export interface PartieInteresseReadDTO {
 }
 
 export interface PartieInteresseUpdateDTO {
- //general
+
   raisonSociale?: string;
   abreviation?: string;
   activite?: string;
   observation?: string;
   actif?: boolean;
 
-  //info coontact
+
   email?: string;
   email2?: string;
   telephone?: string;
   telephoneMobile?: string;
   fax?: string;
 
-  //infof adresse
+
   adresse?: string;
   adresseFacturation?: string;
   adresseLivraison?: string;
@@ -93,7 +93,7 @@ export interface PartieInteresseUpdateDTO {
   codePostalLivraison?: string;
   rueLivraison?: string;
 
-  //info compta
+
   categorieTva?: string;
   modePaiement?: string;
   modalitePaiement?: string;
@@ -101,22 +101,22 @@ export interface PartieInteresseUpdateDTO {
   iban?: string;
   bic?: string;
 
-  //interloc
+
   interlocuteur?: string;
   emailInterlocuteur?: string;
   telInterlocuteur?: string;
 
-  //pour chauuffeur
+
   nom?: string;
   prenom?: string;
   numeroCin?: string;
   numeroLicence?: string;
 
-  //pour commissionnaire
+
   numeroLicenceComissionnaire?: string;
   dateEcheanceLicenceComissionnaire?: string;
 
-  //pour transporteur
+
   grilleTarifaire?: string;
   priseRdvObligatoire?: boolean;
   prestataire?: boolean;

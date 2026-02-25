@@ -15,9 +15,9 @@
             {{ successMessage }}
           </div>
 
-          <!-- Formulaire -->
+
           <form (ngSubmit)="onSubmit()">
-            <!-- Champs communs -->
+
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="raisonSociale" class="form-label">Raison Sociale *</label>
@@ -47,8 +47,8 @@
               </div>
             </div>
 
-            <!-- Contact -->
-            <h5 class="mt-4 mb-3">📞 Contact</h5>
+
+            <h5 class="mt-4 mb-3"> Contact</h5>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -76,8 +76,8 @@
               </div>
             </div>
 
-            <!-- Informations fiscales -->
-            <h5 class="mt-4 mb-3">💰 Informations Fiscales</h5>
+
+            <h5 class="mt-4 mb-3">Informations Fiscales</h5>
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label for="matrFiscal" class="form-label">Matricule Fiscale</label>
@@ -95,8 +95,8 @@
               </div>
             </div>
 
-            <!-- Paiement -->
-            <h5 class="mt-4 mb-3">💳 Paiement</h5>
+
+            <h5 class="mt-4 mb-3">Paiement</h5>
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label for="modePaiement" class="form-label">Mode Paiement</label>
@@ -126,7 +126,7 @@
 
             <!-- Champs spécifiques CHAUFFEUR -->
             <div *ngIf="formulaire.typeClient === 'CHAUFFEUR'" class="mt-4">
-              <h5 class="mb-3">👨‍✈️ Informations Chauffeur</h5>
+              <h5 class="mb-3"> Informations Chauffeur</h5>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="nom" class="form-label">Nom *</label>
@@ -152,7 +152,7 @@
 
             <!-- Champs spécifiques TRANSPORTEUR -->
             <div *ngIf="formulaire.typeClient === 'TRANSPORTEUR'" class="mt-4">
-              <h5 class="mb-3">🚚 Informations Transporteur</h5>
+              <h5 class="mb-3">Informations Transporteur</h5>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <div class="form-check">
@@ -175,9 +175,9 @@
               </div>
             </div>
 
-            <!-- Champs spécifiques COMMISSIONNAIRE -->
+
             <div *ngIf="formulaire.typeClient === 'COMMISSIONNAIRE'" class="mt-4">
-              <h5 class="mb-3">📋 Informations Commissionnaire</h5>
+              <h5 class="mb-3">Informations Commissionnaire</h5>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="numeroLicenceComissionnaire" class="form-label">N° Licence Commissionnaire *</label>
@@ -191,7 +191,7 @@
               </div>
             </div>
 
-            <!-- Statut -->
+
             <div class="row mt-4">
               <div class="col-12">
                 <div class="form-check">
@@ -201,16 +201,16 @@
               </div>
             </div>
 
-            <!-- Boutons -->
+
             <div class="row mt-4">
               <div class="col-12">
                 <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading || !formulaire.raisonSociale || !formulaire.typeClient">
                   <span *ngIf="!isLoading"> Enregistrer</span>
-                  <span *ngIf="isLoading">⏳ Enregistrement...</span>
+                  <span *ngIf="isLoading">Enregistrement...</span>
                 </button>
 
                 <button type="button" class="btn btn-secondary" (click)="annuler()" [disabled]="isLoading">
-                  ❌ Annuler
+                   Annuler
                 </button>
               </div>
             </div>
