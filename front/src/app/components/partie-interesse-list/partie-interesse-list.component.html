@@ -1,0 +1,367 @@
+<div class="container-fluid">
+
+  <div *ngIf="showForm" class="mb-4">
+    <app-partie-interesse-form (formClosed)="onFormClosed()"></app-partie-interesse-form>
+  </div>
+
+
+  <div *ngIf="showUpdateForm" class="mb-4">
+    <div class="card">
+      <div class="card-header">
+        <h5>Modifier Partie Intéressée</h5>
+      </div>
+      <div class="card-body">
+
+
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <div class="alert alert-success" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+
+        <!-- Formulaire de modification simple -->
+        <form (ngSubmit)="onUpdateSubmit()" *ngIf="partieToUpdate">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="updateRaisonSociale" class="form-label">Raison Sociale</label>
+              <input type="text" id="updateRaisonSociale" class="form-control"
+                     [(ngModel)]="partieToUpdate.raisonSociale" name="updateRaisonSociale">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="updateEmail" class="form-label">Email</label>
+              <input type="email" id="updateEmail" class="form-control"
+                     [(ngModel)]="partieToUpdate.email" name="updateEmail">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="updateTelephone" class="form-label">Téléphone</label>
+              <input type="tel" id="updateTelephone" class="form-control"
+                     [(ngModel)]="partieToUpdate.telephone" name="updateTelephone">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="form-check mt-4">
+                <input type="checkbox" id="updateActif" class="form-check-input"
+                       [(ngModel)]="partieToUpdate.actif" name="updateActif">
+                <label for="updateActif" class="form-check-label">Actif</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Boutons -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading">
+                <span *ngIf="!isLoading">Enregistrer</span>
+                <span *ngIf="isLoading">Enregistrement...</span>
+              </button>
+
+              <button type="button" class="btn btn-secondary" (click)="closeUpdateForm()" [disabled]="isLoading">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des parties intéressées (masqué quand un formulaire est affiché) -->
+  <div *ngIf="!showForm && !showUpdateForm">
+    <!-- Messages -->
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <h2>Liste des Parties Intéressées</h2>
+      </div>
+    </div>
+
+  <!-- Filtre par type -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="typeFilter" class="form-label">Filtrer par type:</label>
+      <select
+        id="typeFilter"
+        class="form-select"
+        [(ngModel)]="selectedType"
+        (change)="onFilterChange()">
+        <option value="">Tous les types</option>
+        <option value="CLIENT">Clients</option>
+        <option value="FOURNISSEUR">Fournisseurs</option>
+        <option value="TRANSPORTEUR">Transporteurs</option>
+        <option value="CHAUFFEUR">Chauffeurs</option>
+        <option value="COMMISSIONNAIRE">Commissionnaires</option>
+        <option value="BANQUE">Banques</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div class="row mb-3" *ngIf="errorMessage">
+    <div class="col">
+      <div class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Chargement -->
+  <div class="row" *ngIf="isLoading">
+    <div class="col text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <p class="mt-2">Chargement des données...</p>
+    </div>
+  </div>
+
+  <!-- Tableau des parties intéressées -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Raison Sociale</th>
+              <th>Type</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Actif</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="parties.length === 0">
+              <td colspan="7" class="text-center">Aucune partie intéressée trouvée</td>
+            </tr>
+            <tr *ngFor="let partie of parties">
+              <td>{{ partie.id }}</td>
+              <td>{{ partie.raisonSociale || '-' }}</td>
+              <td>
+                <span class="badge bg-primary">{{ partie.typeClient }}</span>
+              </td>
+              <td>{{ partie.email || '-' }}</td>
+              <td>{{ partie.telephone || '-' }}</td>
+              <td>
+                <span class="badge" [class]="partie.actif ? 'bg-success' : 'bg-danger'">
+                  {{ partie.actif ? 'Oui' : 'Non' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary me-1" title="Voir" (click)="viewPartie(partie.id)">
+                   Voir
+                </button>
+                <button class="btn btn-sm btn-outline-warning me-1" title="Modifier" (click)="updatePartie(partie.id)">
+                   Modifier
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  title="Supprimer"
+                  (click)="deletePartie(partie.id)">
+                   Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bouton ajouter -->
+    <div class="row mt-4">
+      <div class="col">
+        <button class="btn btn-primary" (click)="addPartie()">
+          Ajouter une partie intéressée
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour voir les détails -->
+  <div class="modal fade" [class.show]="showDetailsModal" [style.display]="showDetailsModal ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Détails de la Partie Intéressée</h5>
+          <button type="button" class="btn-close" (click)="closeDetailsModal()">&times;</button>
+        </div>
+        <div class="modal-body" *ngIf="partieToView">
+          <div class="row">
+            <div class="col-md-6">
+              <strong>ID:</strong> {{ partieToView.id }}
+            </div>
+            <div class="col-md-6">
+              <strong>Type:</strong>
+              <span class="badge bg-primary">{{ partieToView.typeClient }}</span>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <strong>Raison Sociale:</strong> {{ partieToView.raisonSociale || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <strong>Activité:</strong> {{ partieToView.activite || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <strong>Observation:</strong> {{ partieToView.observation || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <strong>Email:</strong> {{ partieToView.email || '-' }}
+            </div>
+            <div class="col-md-6">
+              <strong>Email 2:</strong> {{ partieToView.email2 || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <strong>Téléphone:</strong> {{ partieToView.telephone || '-' }}
+            </div>
+            <div class="col-md-6">
+              <strong>Téléphone Mobile:</strong> {{ partieToView.telephoneMobile || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <strong>Adresse:</strong> {{ partieToView.adresse || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <strong>Matr. Fiscal:</strong> {{ partieToView.matrFiscal || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>Identifiant Fiscal:</strong> {{ partieToView.identifiantFiscal || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>Autre ID Fiscal:</strong> {{ partieToView.autreIdentifiantFiscal || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <strong>Catégorie TVA:</strong> {{ partieToView.categorieTva || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>Mode Paiement:</strong> {{ partieToView.modePaiement || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>Modalité Paiement:</strong> {{ partieToView.modalitePaiement || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <strong>RIB:</strong> {{ partieToView.rib || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>IBAN:</strong> {{ partieToView.iban || '-' }}
+            </div>
+            <div class="col-md-4">
+              <strong>BIC:</strong> {{ partieToView.bic || '-' }}
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <strong>Statut:</strong>
+              <span class="badge" [class]="partieToView.actif ? 'bg-success' : 'bg-danger'">
+                {{ partieToView.actif ? 'Actif' : 'Inactif' }}
+              </span>
+            </div>
+            <div class="col-md-6" *ngIf="partieToView.prestataire">
+              <strong>Prestataire:</strong>
+              <span class="badge bg-info">{{ partieToView.prestataire ? 'Oui' : 'Non' }}</span>
+            </div>
+          </div>
+
+          <!-- Champs spécifiques CHAUFFEUR -->
+          <div class="row mt-3" *ngIf="partieToView.typeClient === 'CHAUFFEUR'">
+            <div class="col-12">
+              <h6 class="text-primary">👨‍✈️ Informations Chauffeur</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>Nom:</strong> {{ partieToView.nom || '-' }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Prénom:</strong> {{ partieToView.prenom || '-' }}
+                </div>
+                <div class="col-md-6">
+                  <strong>N° CIN:</strong> {{ partieToView.numeroCin || '-' }}
+                </div>
+                <div class="col-md-6">
+                  <strong>N° Licence:</strong> {{ partieToView.numeroLicence || '-' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Champs spécifiques TRANSPORTEUR -->
+          <div class="row mt-3" *ngIf="partieToView.typeClient === 'TRANSPORTEUR'">
+            <div class="col-12">
+              <h6 class="text-primary">🚚 Informations Transporteur</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>Prestataire:</strong>
+                  <span class="badge bg-info">{{ partieToView.prestataire ? 'Oui' : 'Non' }}</span>
+                </div>
+                <div class="col-md-6">
+                  <strong>Grille Tarifaire:</strong> {{ partieToView.grilleTarifaire || '-' }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Prise RDV Obligatoire:</strong>
+                  <span class="badge bg-warning">{{ partieToView.priseRdvObligatoire ? 'Oui' : 'Non' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Champs spécifiques COMMISSIONNAIRE -->
+          <div class="row mt-3" *ngIf="partieToView.typeClient === 'COMMISSIONNAIRE'">
+            <div class="col-12">
+              <h6 class="text-primary">📋 Informations Commissionnaire</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>N° Licence:</strong> {{ partieToView.numeroLicenceComissionnaire || '-' }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Date Échéance:</strong> {{ partieToView.dateEcheanceLicenceComissionnaire || '-' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDetailsModal()">
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

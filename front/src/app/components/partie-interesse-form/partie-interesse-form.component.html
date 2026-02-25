@@ -1,0 +1,222 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Nouvelle Partie Intéressée</h3>
+        </div>
+        <div class="card-body">
+          <!-- Messages -->
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <div class="alert alert-success" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+
+          <!-- Formulaire -->
+          <form (ngSubmit)="onSubmit()">
+            <!-- Champs communs -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="raisonSociale" class="form-label">Raison Sociale *</label>
+                <input type="text" id="raisonSociale" class="form-control" [(ngModel)]="formulaire.raisonSociale" name="raisonSociale" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="abreviation" class="form-label">Abréviation</label>
+                <input type="text" id="abreviation" class="form-control" [(ngModel)]="formulaire.abreviation" name="abreviation">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="activite" class="form-label">Activité</label>
+                <input type="text" id="activite" class="form-control" [(ngModel)]="formulaire.activite" name="activite">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="typeClient" class="form-label">Type *</label>
+                <select id="typeClient" class="form-select" [(ngModel)]="formulaire.typeClient" name="typeClient" required>
+                  <option *ngFor="let type of typesDisponibles" [value]="type.value">{{ type.label }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label for="observation" class="form-label">Observation</label>
+                <textarea id="observation" class="form-control" [(ngModel)]="formulaire.observation" name="observation" rows="2"></textarea>
+              </div>
+            </div>
+
+            <!-- Contact -->
+            <h5 class="mt-4 mb-3">📞 Contact</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" [(ngModel)]="formulaire.email" name="email">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="email2" class="form-label">Email 2</label>
+                <input type="email" id="email2" class="form-control" [(ngModel)]="formulaire.email2" name="email2">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="telephone" class="form-label">Téléphone</label>
+                <input type="tel" id="telephone" class="form-control" [(ngModel)]="formulaire.telephone" name="telephone">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="telephoneMobile" class="form-label">Téléphone Mobile</label>
+                <input type="tel" id="telephoneMobile" class="form-control" [(ngModel)]="formulaire.telephoneMobile" name="telephoneMobile">
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label for="adresse" class="form-label">Adresse</label>
+                <input type="text" id="adresse" class="form-control" [(ngModel)]="formulaire.adresse" name="adresse">
+              </div>
+            </div>
+
+            <!-- Informations fiscales -->
+            <h5 class="mt-4 mb-3">💰 Informations Fiscales</h5>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="matrFiscal" class="form-label">Matricule Fiscale</label>
+                <input type="text" id="matrFiscal" class="form-control" [(ngModel)]="formulaire.matrFiscal" name="matrFiscal">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="identifiantFiscal" class="form-label">Identifiant Fiscal</label>
+                <input type="text" id="identifiantFiscal" class="form-control" [(ngModel)]="formulaire.identifiantFiscal" name="identifiantFiscal">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="categorieTva" class="form-label">Catégorie TVA</label>
+                <input type="text" id="categorieTva" class="form-control" [(ngModel)]="formulaire.categorieTva" name="categorieTva">
+              </div>
+            </div>
+
+            <!-- Paiement -->
+            <h5 class="mt-4 mb-3">💳 Paiement</h5>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="modePaiement" class="form-label">Mode Paiement</label>
+                <input type="text" id="modePaiement" class="form-control" [(ngModel)]="formulaire.modePaiement" name="modePaiement">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="modalitePaiement" class="form-label">Modalité Paiement</label>
+                <input type="text" id="modalitePaiement" class="form-control" [(ngModel)]="formulaire.modalitePaiement" name="modalitePaiement">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="rib" class="form-label">RIB</label>
+                <input type="text" id="rib" class="form-control" [(ngModel)]="formulaire.rib" name="rib">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="iban" class="form-label">IBAN</label>
+                <input type="text" id="iban" class="form-control" [(ngModel)]="formulaire.iban" name="iban">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="bic" class="form-label">BIC</label>
+                <input type="text" id="bic" class="form-control" [(ngModel)]="formulaire.bic" name="bic">
+              </div>
+            </div>
+
+            <!-- Champs spécifiques CHAUFFEUR -->
+            <div *ngIf="formulaire.typeClient === 'CHAUFFEUR'" class="mt-4">
+              <h5 class="mb-3">👨‍✈️ Informations Chauffeur</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="nom" class="form-label">Nom *</label>
+                  <input type="text" id="nom" class="form-control" [(ngModel)]="formulaire.nom" name="nom">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="prenom" class="form-label">Prénom *</label>
+                  <input type="text" id="prenom" class="form-control" [(ngModel)]="formulaire.prenom" name="prenom">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="numeroCin" class="form-label">N° CIN *</label>
+                  <input type="text" id="numeroCin" class="form-control" [(ngModel)]="formulaire.numeroCin" name="numeroCin">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="numeroLicence" class="form-label">N° Licence *</label>
+                  <input type="text" id="numeroLicence" class="form-control" [(ngModel)]="formulaire.numeroLicence" name="numeroLicence">
+                </div>
+              </div>
+            </div>
+
+            <!-- Champs spécifiques TRANSPORTEUR -->
+            <div *ngIf="formulaire.typeClient === 'TRANSPORTEUR'" class="mt-4">
+              <h5 class="mb-3">🚚 Informations Transporteur</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-check">
+                    <input type="checkbox" id="prestataire" class="form-check-input" [(ngModel)]="formulaire.prestataire" name="prestataire">
+                    <label for="prestataire" class="form-check-label">Prestataire</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="grilleTarifaire" class="form-label">Grille Tarifaire</label>
+                  <input type="text" id="grilleTarifaire" class="form-control" [(ngModel)]="formulaire.grilleTarifaire" name="grilleTarifaire">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-check">
+                    <input type="checkbox" id="priseRdvObligatoire" class="form-check-input" [(ngModel)]="formulaire.priseRdvObligatoire" name="priseRdvObligatoire">
+                    <label for="priseRdvObligatoire" class="form-check-label">Prise RDV Obligatoire</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Champs spécifiques COMMISSIONNAIRE -->
+            <div *ngIf="formulaire.typeClient === 'COMMISSIONNAIRE'" class="mt-4">
+              <h5 class="mb-3">📋 Informations Commissionnaire</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="numeroLicenceComissionnaire" class="form-label">N° Licence Commissionnaire *</label>
+                  <input type="text" id="numeroLicenceComissionnaire" class="form-control" [(ngModel)]="formulaire.numeroLicenceComissionnaire" name="numeroLicenceComissionnaire">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="dateEcheanceLicenceComissionnaire" class="form-label">Date Échéance Licence</label>
+                  <input type="date" id="dateEcheanceLicenceComissionnaire" class="form-control" [(ngModel)]="formulaire.dateEcheanceLicenceComissionnaire" name="dateEcheanceLicenceComissionnaire">
+                </div>
+              </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="form-check">
+                  <input type="checkbox" id="actif" class="form-check-input" [(ngModel)]="formulaire.actif" name="actif">
+                  <label for="actif" class="form-check-label">Actif</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading || !formulaire.raisonSociale || !formulaire.typeClient">
+                  <span *ngIf="!isLoading"> Enregistrer</span>
+                  <span *ngIf="isLoading">⏳ Enregistrement...</span>
+                </button>
+
+                <button type="button" class="btn btn-secondary" (click)="annuler()" [disabled]="isLoading">
+                  ❌ Annuler
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
