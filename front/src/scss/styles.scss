@@ -19,5 +19,7 @@ $enable-rtl: true;
 // Prism.js
 @import "examples";
 
-// If you want to add something do it here
+
 @import "custom";
+
+@import "~@coreui/icons/css/all.css";

@@ -3,10 +3,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3>Nouvelle Partie Intéressée</h3>
+          <h3>{{ isEditMode ? 'Modifier Partie Intéressée' : 'Nouvelle Partie Intéressée' }}</h3>
         </div>
         <div class="card-body">
-          <!-- Messages -->
+         
           <div class="alert alert-danger" *ngIf="errorMessage">
             {{ errorMessage }}
           </div>
@@ -61,8 +61,16 @@
               </div>
 
               <div class="col-md-6 mb-3">
-                <label for="telephone" class="form-label">Téléphone</label>
-                <input type="tel" id="telephone" class="form-control" [(ngModel)]="formulaire.telephone" name="telephone">
+                <label for="telephone" class="form-label">Téléphone *</label>
+                <input type="tel" id="telephone" class="form-control" 
+                       [(ngModel)]="formulaire.telephone" 
+                       name="telephone"
+                       (blur)="validerTelephone()"
+                       [class.is-invalid]="telephoneError"
+                       placeholder="Ex: 0612345678">
+                <div class="invalid-feedback" *ngIf="telephoneError">
+                  {{ telephoneError }}
+                </div>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -124,7 +132,7 @@
               </div>
             </div>
 
-            <!-- Champs spécifiques CHAUFFEUR -->
+            
             <div *ngIf="formulaire.typeClient === 'CHAUFFEUR'" class="mt-4">
               <h5 class="mb-3"> Informations Chauffeur</h5>
               <div class="row">
@@ -150,8 +158,7 @@
               </div>
             </div>
 
-            <!-- Champs spécifiques TRANSPORTEUR -->
-            <div *ngIf="formulaire.typeClient === 'TRANSPORTEUR'" class="mt-4">
+             <div *ngIf="formulaire.typeClient === 'TRANSPORTEUR'" class="mt-4">
               <h5 class="mb-3">Informations Transporteur</h5>
               <div class="row">
                 <div class="col-md-6 mb-3">
@@ -205,8 +212,8 @@
             <div class="row mt-4">
               <div class="col-12">
                 <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading || !formulaire.raisonSociale || !formulaire.typeClient">
-                  <span *ngIf="!isLoading"> Enregistrer</span>
-                  <span *ngIf="isLoading">Enregistrement...</span>
+                  <span *ngIf="!isLoading">{{ isEditMode ? 'Modifier' : 'Enregistrer' }}</span>
+                  <span *ngIf="isLoading">{{ isEditMode ? 'Modification...' : 'Enregistrement...' }}</span>
                 </button>
 
                 <button type="button" class="btn btn-secondary" (click)="annuler()" [disabled]="isLoading">

@@ -4,8 +4,18 @@
 
 .table-responsive {
   border-radius: 8px;
-  overflow: hidden;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+  /* PERMET le scroll horizontal sur mobile */
+  overflow-x: auto; 
+  
+  /* EMPECHE de couper les ombres ou les boutons */
+  overflow-y: visible; 
+}
+
+/* Optionnel : force la table à avoir une taille mini pour déclencher le scroll */
+.table {
+  min-width: 800px; 
 }
 
 .table {

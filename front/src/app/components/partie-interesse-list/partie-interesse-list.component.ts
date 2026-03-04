@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PartieInteresseService } from '../../services/partie-interesse.service';
-import { PartieInteresseReadDTO, PartieInteresseUpdateDTO } from '../../models/partie-interesse.model';
+import { PartieInteresseReadDTO } from '../../models/partie-interesse.model';
 
 @Component({
   selector: 'app-partie-interesse-list',
@@ -51,8 +51,8 @@ export class PartieInteresseListComponent implements OnInit {
     if (confirm('Êtes-vous sûr de vouloir désactiver cette partie intéressée ?\n\nNote : La suppression est réversible, la partie sera simplement marquée comme inactive.')) {
       this.partieService.delete(id).subscribe({
         next: () => {
-          this.loadParties(); // Recharger la liste après suppression soft
-          // Message de succès
+          this.loadParties(); 
+          
           this.successMessage = 'Partie intéressée désactivée avec succès';
           setTimeout(() => {
             this.successMessage = '';
@@ -74,7 +74,6 @@ export class PartieInteresseListComponent implements OnInit {
   }
 
   updatePartie(id: number): void {
-    // Charger les données de la partie à modifier
     this.isLoading = true;
     this.partieService.getById(id).subscribe({
       next: (data: PartieInteresseReadDTO) => {
@@ -91,46 +90,24 @@ export class PartieInteresseListComponent implements OnInit {
     });
   }
 
-  onUpdateSubmit(): void {
-    if (!this.partieToUpdate || !this.selectedPartieId) return;
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-
-    const updateData: PartieInteresseUpdateDTO = {
-      raisonSociale: this.partieToUpdate.raisonSociale,
-      abreviation: this.partieToUpdate.abreviation,
-      activite: this.partieToUpdate.activite,
-      email: this.partieToUpdate.email,
-      telephone: this.partieToUpdate.telephone,
-      actif: this.partieToUpdate.actif,
-
-    };
-
-    this.partieService.update(this.selectedPartieId, updateData).subscribe({
-      next: () => {
-        this.successMessage = 'Partie intéressée modifiée avec succès !';
-        this.isLoading = false;
-        this.closeUpdateForm();
-
-        setTimeout(() => {
-          this.successMessage = '';
-        }, 3000);
-      },
-      error: (err) => {
-        this.errorMessage = 'Erreur lors de la modification';
-        this.isLoading = false;
-        console.error('Erreur:', err);
-      }
-    });
-  }
-
-  closeUpdateForm(): void {
+  onUpdateFormClosed(): void {
     this.showUpdateForm = false;
     this.selectedPartieId = null;
     this.partieToUpdate = null;
     this.loadParties();
+  }
+
+  onPartieUpdated(partieUpdated: PartieInteresseReadDTO): void {
+    this.successMessage = 'Partie intéressée modifiée avec succès !';
+    
+    const index = this.parties.findIndex(p => p.id === partieUpdated.id);
+    if (index !== -1) {
+      this.parties[index] = partieUpdated;
+    }
+    
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 3000);
   }
 
   viewPartie(id: number): void {

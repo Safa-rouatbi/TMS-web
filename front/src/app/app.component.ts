@@ -7,12 +7,7 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div class="container-fluid p-4">
-      <h1>Test du Composant Partie Intéressée</h1>
-      <app-partie-interesse-list></app-partie-interesse-list>
-    </div>
-  `,
+  template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
   title = 'CoreUI Free Angular Admin Template';

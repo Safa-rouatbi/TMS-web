@@ -6,68 +6,12 @@
 
 
   <div *ngIf="showUpdateForm" class="mb-4">
-    <div class="card">
-      <div class="card-header">
-        <h5>Modifier Partie Intéressée</h5>
-      </div>
-      <div class="card-body">
-
-
-        <div class="alert alert-danger" *ngIf="errorMessage">
-          {{ errorMessage }}
-        </div>
-
-        <div class="alert alert-success" *ngIf="successMessage">
-          {{ successMessage }}
-        </div>
-
-
-
-        <form (ngSubmit)="onUpdateSubmit()" *ngIf="partieToUpdate">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="updateRaisonSociale" class="form-label">Raison Sociale</label>
-              <input type="text" id="updateRaisonSociale" class="form-control"
-                     [(ngModel)]="partieToUpdate.raisonSociale" name="updateRaisonSociale">
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="updateEmail" class="form-label">Email</label>
-              <input type="email" id="updateEmail" class="form-control"
-                     [(ngModel)]="partieToUpdate.email" name="updateEmail">
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="updateTelephone" class="form-label">Téléphone</label>
-              <input type="tel" id="updateTelephone" class="form-control"
-                     [(ngModel)]="partieToUpdate.telephone" name="updateTelephone">
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <div class="form-check mt-4">
-                <input type="checkbox" id="updateActif" class="form-check-input"
-                       [(ngModel)]="partieToUpdate.actif" name="updateActif">
-                <label for="updateActif" class="form-check-label">Actif</label>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row mt-4">
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary me-2" [disabled]="isLoading">
-                <span *ngIf="!isLoading">Enregistrer</span>
-                <span *ngIf="isLoading">Enregistrement...</span>
-              </button>
-
-              <button type="button" class="btn btn-secondary" (click)="closeUpdateForm()" [disabled]="isLoading">
-                Annuler
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <app-partie-interesse-form 
+      [isEditMode]="true"
+      [partieToEdit]="partieToUpdate"
+      (formClosed)="onUpdateFormClosed()"
+      (partieUpdated)="onPartieUpdated($event)">
+    </app-partie-interesse-form>
   </div>
 
 
@@ -126,59 +70,57 @@
     </div>
   </div>
 
-
+  
   <div class="row" *ngIf="!isLoading">
-    <div class="col">
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead class="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>Raison Sociale</th>
-              <th>Type</th>
-              <th>Email</th>
-              <th>Téléphone</th>
-              <th>Actif</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="parties.length === 0">
-              <td colspan="7" class="text-center">Aucune partie intéressée trouvée</td>
-            </tr>
-            <tr *ngFor="let partie of parties">
-              <td>{{ partie.id }}</td>
-              <td>{{ partie.raisonSociale || '-' }}</td>
-              <td>
-                <span class="badge bg-primary">{{ partie.typeClient }}</span>
-              </td>
-              <td>{{ partie.email || '-' }}</td>
-              <td>{{ partie.telephone || '-' }}</td>
-              <td>
-                <span class="badge" [class]="partie.actif ? 'bg-success' : 'bg-danger'">
-                  {{ partie.actif ? 'Oui' : 'Non' }}
-                </span>
-              </td>
-              <td>
-                <button class="btn btn-sm btn-outline-primary me-1" title="Voir" (click)="viewPartie(partie.id)">
-                   Voir
-                </button>
-                <button class="btn btn-sm btn-outline-warning me-1" title="Modifier" (click)="updatePartie(partie.id)">
-                   Modifier
-                </button>
-                <button
-                  class="btn btn-sm btn-outline-danger"
-                  title="Supprimer"
-                  (click)="deletePartie(partie.id)">
-                   Supprimer
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="col">
+   
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Raison Sociale</th>
+            <th>Type</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Actif</th>
+            
+            <th style="min-width: 280px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="parties.length === 0">
+            <td colspan="6" class="text-center">Aucune partie intéressée trouvée</td>
+          </tr>
+          <tr *ngFor="let partie of parties">
+            <td>{{ partie.raisonSociale || '-' }}</td>
+            <td>
+              <c-badge color="primary">{{ partie.typeClient }}</c-badge>
+            </td>
+            <td>{{ partie.email || '-' }}</td>
+            <td>{{ partie.telephone || '-' }}</td>
+            <td>
+              <c-badge [color]="partie.actif ? 'success' : 'danger'">
+                {{ partie.actif ? 'Oui' : 'Non' }}
+              </c-badge>
+            </td>
+           
+            <td style="white-space: nowrap; vertical-align: middle;">
+              <button cButton color="primary" variant="outline" size="sm" class="me-1" (click)="viewPartie(partie.id)">
+                Voir
+              </button>
+              <button cButton color="warning" variant="outline" size="sm" class="me-1" (click)="updatePartie(partie.id)">
+                Modifier
+              </button>
+              <button cButton color="danger" variant="outline" size="sm" (click)="deletePartie(partie.id)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
 
     <div class="row mt-4">
