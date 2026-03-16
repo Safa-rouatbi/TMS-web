@@ -28,7 +28,7 @@ private String numTelContactLivraison;
 private Calendar dateLivraison;
 private String heureLivraison;
 
-private Long produitId;
+
 
 private String typeRessource;
 private String ressource;

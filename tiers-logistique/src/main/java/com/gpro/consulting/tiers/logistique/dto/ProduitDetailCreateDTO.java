@@ -23,7 +23,7 @@ private String codePostalLivraison;
 private String nomContactLivraison;
 private String numTelContactLivraison;
 
-private Long produitId;
+
 private String typeRessource;
 private String ressource;
 private Long ressourceId;

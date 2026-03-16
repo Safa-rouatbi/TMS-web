@@ -1,7 +1,7 @@
 package com.gpro.consulting.tiers.logistique.persistance.elementBase.entity;
 
 
-import com.gpro.consulting.tiers.logistique.coordination.gc.IConstanteCommerciale;
+import com.gpro.consulting.tiers.logistique.coordination.gc.IConstante;
 import com.gpro.consulting.tiers.logistique.persistance.gc.bonlivraison.entitie.DetailOrdreTransportEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = IConstanteCommerciale.TABLE_ARTICLE_PRODUIT)
+@Table(name = IConstante.TABLE_ARTICLE_PRODUIT)
 public class ArticleProduitEntity implements Serializable {
 
     private static final long serialVersionUID = 4350985648971998529L;

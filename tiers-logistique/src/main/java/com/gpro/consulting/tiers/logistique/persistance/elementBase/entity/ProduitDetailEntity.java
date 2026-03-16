@@ -1,7 +1,7 @@
 package com.gpro.consulting.tiers.logistique.persistance.elementBase.entity;
 
 
-import com.gpro.consulting.tiers.logistique.coordination.gc.IConstanteCommerciale;
+import com.gpro.consulting.tiers.logistique.coordination.gc.IConstante;
 import com.gpro.consulting.tiers.logistique.persistance.gc.bonlivraison.entitie.DetailOrdreTransportEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.Calendar;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = IConstanteCommerciale.TABLE__PRODUIT_DETAIL)
+@Table(name = IConstante.TABLE__PRODUIT_DETAIL)
 public class ProduitDetailEntity implements Serializable {
 
     private static final long serialVersionUID = 4350985648971998529L;

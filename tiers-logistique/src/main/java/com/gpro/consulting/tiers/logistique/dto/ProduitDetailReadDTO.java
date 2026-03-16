@@ -9,7 +9,7 @@ public class ProduitDetailReadDTO {
 
        // Identifiants et quantités principales
     private Long id;
-    private Long produitId;
+    
     private Double prixRevient;
     private Double poidsTotal;
     private Double metreLineaire;

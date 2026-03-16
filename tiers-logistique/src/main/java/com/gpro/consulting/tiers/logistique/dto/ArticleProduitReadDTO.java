@@ -12,7 +12,7 @@ private String produitSemiFini;
 private String referenceArticle;
 private Long impressionProduitId;
 private String grammage;
-private Long produitId;
+
 private String dimension;
 private Long sousFamilleArticleId;
 private String infoMatiere;
