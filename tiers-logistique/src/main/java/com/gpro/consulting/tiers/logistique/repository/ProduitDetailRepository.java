@@ -10,7 +10,5 @@ public interface ProduitDetailRepository extends ReadOnlyRepository<ProduitDetai
 
     List<ProduitDetailEntity> findByDetailOrdreTransportId(Long detailOrdreTransportId);
 
-    List<ProduitDetailEntity> findByProduitId(Long produitId);
-
     List<ProduitDetailEntity> findByType(String type);
 }
