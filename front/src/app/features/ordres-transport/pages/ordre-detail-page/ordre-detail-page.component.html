@@ -17,6 +17,14 @@
     </c-col>
   </c-row>
 
+  <c-row *ngIf="actionError" class="mb-4">
+    <c-col xs="12">
+      <c-alert color="danger" closeButton (closed)="actionError = null">
+        {{ actionError }}
+      </c-alert>
+    </c-col>
+  </c-row>
+
   <!-- Header -->
   <c-row class="mb-4" *ngIf="ordre">
     <c-col xs="12">
@@ -122,6 +130,12 @@
           <!-- Tab Détails -->
           <div class="tab-pane" [class.active]="activeTab === 'details'" role="tabpanel">
             <div class="p-4">
+              <div class="d-flex justify-content-end mb-3">
+                <button cButton color="success" (click)="onAddDetail()">
+                  Ajouter détail
+                </button>
+              </div>
+
               <p class="text-muted mb-3">Détails associés à cet ordre de transport</p>
               <div *ngIf="ordre.details && ordre.details.length > 0">
                 <div class="table-responsive">
@@ -133,6 +147,7 @@
                         <th>Quantité</th>
                         <th>Prix Unitaire HT</th>
                         <th>Prix TTC</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -142,6 +157,12 @@
                         <td>{{ detail.quantite }}</td>
                         <td>{{ detail.prixUnitaireHT | currency: 'EUR' }}</td>
                         <td>{{ detail.prixTTC | currency: 'EUR' }}</td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <button cButton size="sm" color="primary" (click)="onEditDetail(detail)">Éditer</button>
+                            <button cButton size="sm" color="danger" (click)="onDeleteDetail(detail.id)">Supprimer</button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -156,6 +177,12 @@
           <!-- Tab Lignes -->
           <div class="tab-pane" [class.active]="activeTab === 'lignes'" role="tabpanel">
             <div class="p-4">
+              <div class="d-flex justify-content-end mb-3">
+                <button cButton color="success" (click)="onAddLigne()">
+                  Ajouter ligne
+                </button>
+              </div>
+
               <p class="text-muted mb-3">Lignes associées à cet ordre</p>
               <div *ngIf="getFirstDetailLignes() as lignes">
                 <div *ngIf="lignes.length > 0" class="table-responsive">
@@ -167,6 +194,7 @@
                         <th>Quantité</th>
                         <th>PU</th>
                         <th>Société</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -176,6 +204,12 @@
                         <td>{{ ligne.quantite }}</td>
                         <td>{{ ligne.pu | currency: 'EUR' }}</td>
                         <td>{{ ligne.societe }}</td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <button cButton size="sm" color="primary" (click)="onEditLigne(ligne)">Éditer</button>
+                            <button cButton size="sm" color="danger" (click)="onDeleteLigne(ligne.id)">Supprimer</button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -193,6 +227,12 @@
           <!-- Tab Produits Détails -->
           <div class="tab-pane" [class.active]="activeTab === 'produits'" role="tabpanel">
             <div class="p-4">
+              <div class="d-flex justify-content-end mb-3">
+                <button cButton color="success" (click)="onAddProduit()">
+                  Ajouter produit détail
+                </button>
+              </div>
+
               <p class="text-muted mb-3">Produits détails associés à cet ordre</p>
               <div *ngIf="getFirstDetailProduits() as produits">
                 <div *ngIf="produits.length > 0" class="table-responsive">
@@ -206,6 +246,7 @@
                         <th>Pays Livraison</th>
                         <th>Poids Total</th>
                         <th>Prix Achat</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -217,6 +258,12 @@
                         <td>{{ produit.paysLivraison }}</td>
                         <td>{{ produit.poidsTotal }}</td>
                         <td>{{ produit.prixAchat | currency: 'EUR' }}</td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <button cButton size="sm" color="primary" (click)="onEditProduit(produit)">Éditer</button>
+                            <button cButton size="sm" color="danger" (click)="onDeleteProduit(produit.id)">Supprimer</button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -234,6 +281,12 @@
           <!-- Tab Articles -->
           <div class="tab-pane" [class.active]="activeTab === 'articles'" role="tabpanel">
             <div class="p-4">
+              <div class="d-flex justify-content-end mb-3">
+                <button cButton color="success" (click)="onAddArticle()">
+                  Ajouter article
+                </button>
+              </div>
+
               <p class="text-muted mb-3">Articles produits associés à cet ordre</p>
               <div *ngIf="getFirstArticles() as articles">
                 <div *ngIf="articles.length > 0" class="table-responsive">
@@ -245,6 +298,7 @@
                         <th>Quantité</th>
                         <th>Type Palette</th>
                         <th>Poids Palette Total</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -254,6 +308,12 @@
                         <td>{{ article.quantite }}</td>
                         <td>{{ article.typePalette }}</td>
                         <td>{{ article.poidsPaletteTotal }}</td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <button cButton size="sm" color="primary" (click)="onEditArticle(article)">Éditer</button>
+                            <button cButton size="sm" color="danger" (click)="onDeleteArticle(article.id)">Supprimer</button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -271,4 +331,63 @@
       </c-card>
     </c-col>
   </c-row>
+
+  <div *ngIf="showDetailModal" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <app-detail-modal
+          [ordreId]="ordreId"
+          [detailData]="selectedDetail"
+          (save)="onDetailSaved()"
+          (cancel)="onDetailModalClosed()"
+        ></app-detail-modal>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showDetailModal" class="modal-backdrop fade show"></div>
+
+  <div *ngIf="showLigneModal && getFirstDetailId() as currentDetailId" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <app-ligne-modal
+          [ordreId]="ordreId"
+          [detailId]="currentDetailId"
+          [ligneData]="selectedLigne"
+          (save)="onLigneSaved()"
+          (cancel)="onLigneModalClosed()"
+        ></app-ligne-modal>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showLigneModal" class="modal-backdrop fade show"></div>
+
+  <div *ngIf="showProduitModal && getFirstDetailId() as currentDetailId" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <app-produit-detail-modal
+          [ordreId]="ordreId"
+          [detailId]="currentDetailId"
+          [produitDetailData]="selectedProduit"
+          (save)="onProduitSaved()"
+          (cancel)="onProduitModalClosed()"
+        ></app-produit-detail-modal>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showProduitModal" class="modal-backdrop fade show"></div>
+
+  <div *ngIf="showArticleModal && getFirstDetailId() as currentDetailId" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <app-article-produit-modal
+          [ordreId]="ordreId"
+          [detailId]="currentDetailId"
+          [articleData]="selectedArticle"
+          (save)="onArticleSaved()"
+          (cancel)="onArticleModalClosed()"
+        ></app-article-produit-modal>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showArticleModal" class="modal-backdrop fade show"></div>
 </c-container>
