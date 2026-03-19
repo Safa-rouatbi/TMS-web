@@ -8,6 +8,12 @@ export const navItems: INavData[] = [
    
   },
   {
+    name: 'Ordres de Transport',
+    url: '/ordres-transport',
+    iconComponent: { name: 'cil-truck' },
+    
+  },
+  {
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },

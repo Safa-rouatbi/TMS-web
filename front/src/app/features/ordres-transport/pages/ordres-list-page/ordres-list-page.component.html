@@ -1,0 +1,117 @@
+<c-container class="container-lg">
+  <c-row class="mb-4">
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>Ordres de Transport</strong>
+        </c-card-header>
+        <c-card-body>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="text-muted mb-0">Gestion complète des ordres de transport</p>
+            <button cButton color="success" (click)="onNew()">
+              <i class="icon icon-lg cil-check-alt d-icon-lg"></i> Nouveau Ordre
+            </button>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <!-- Affichage du chargement -->
+  <div *ngIf="isLoading$ | async" class="text-center py-5">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Affichage des erreurs -->
+  <c-row *ngIf="error$ | async as error" class="mb-4">
+    <c-col xs="12">
+      <c-alert color="danger" closeButton>
+        <h4 cAlertHeading>Erreur</h4>
+        <p>{{ error }}</p>
+        <button cButton color="danger" (click)="onRetry()">Réessayer</button>
+      </c-alert>
+    </c-col>
+  </c-row>
+
+  <!-- Tableau des ordres -->
+  <c-row>
+    <c-col xs="12">
+      <c-card>
+        <c-card-header>
+          <strong>Liste des Ordres</strong>
+        </c-card-header>
+        <table class="table table-striped table-hover table-responsive-md">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Référence</th>
+              <th scope="col">Ref Externe</th>
+              <th scope="col">Date</th>
+              <th scope="col">État</th>
+              <th scope="col">Montant TTC</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordre of ordres$ | async">
+              <td scope="row">{{ ordre.id }}</td>
+              <td>{{ ordre.reference || '-' }}</td>
+              <td>{{ ordre.refexterne || '-' }}</td>
+              <td>{{ ordre.date | date: 'short' }}</td>
+              <td>
+                <c-badge
+                  [color]="ordre.etat === 'VALIDEE' ? 'success' : 'warning'"
+                >
+                  {{ ordre.etat || 'EN_COURS' }}
+                </c-badge>
+              </td>
+              <td>{{ ordre.montantTTC | currency: 'EUR' }}</td>
+              <td>
+                <button
+                  cButton
+                  color="info"
+                  variant="outline"
+                  cTooltip="Voir détails"
+                  [title]="'Voir ordre ' + (ordre.reference || ordre.id)"
+                  (click)="onView(ordre.id!)"
+                  class="btn-sm"
+                >
+                  <i class="icon cil-magnifying-glass"></i>
+                </button>
+                <button
+                  cButton
+                  color="primary"
+                  variant="outline"
+                  cTooltip="Éditer"
+                  [title]="'Modifier ordre ' + (ordre.reference || ordre.id)"
+                  (click)="onEdit(ordre.id!)"
+                  class="btn-sm ms-2"
+                >
+                  <i class="icon cil-pencil"></i>
+                </button>
+                <button
+                  cButton
+                  color="danger"
+                  variant="outline"
+                  cTooltip="Supprimer"
+                  [title]="'Supprimer ordre ' + (ordre.reference || ordre.id)"
+                  (click)="onDelete(ordre.id!)"
+                  class="btn-sm ms-2"
+                >
+                  <i class="icon cil-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="!(ordres$ | async)?.length">
+              <td colspan="7" class="text-center text-muted py-4">
+                Aucun ordre de transport
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card>
+    </c-col>
+  </c-row>
+</c-container>

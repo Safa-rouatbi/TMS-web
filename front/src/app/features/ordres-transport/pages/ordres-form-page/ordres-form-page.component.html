@@ -1,0 +1,141 @@
+<c-container class="container-lg">
+  <c-row class="mb-4">
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>{{ ordreId ? 'Modifier' : 'Créer' }} un Ordre de Transport</strong>
+        </c-card-header>
+        <c-card-body>
+          <div class="mb-4">
+            <div class="d-flex gap-2 flex-wrap">
+              <button type="button" cButton [color]="step === 1 ? 'primary' : 'light'" [disabled]="!canGoToStep(1)" (click)="step = 1">1. Général</button>
+              <button type="button" cButton [color]="step === 2 ? 'primary' : 'light'" [disabled]="!canGoToStep(2)" (click)="step = 2">2. Transport</button>
+              <button type="button" cButton [color]="step === 3 ? 'primary' : 'light'" [disabled]="!canGoToStep(3)" (click)="step = 3">3. Paiement & Passager</button>
+            </div>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="onSave()">
+            <ng-container *ngIf="step === 1">
+              <c-row class="mb-3">
+                <c-col xs="12" md="6">
+                  <label for="reference" class="form-label">Référence</label>
+                  <input cFormControl id="reference" type="text" formControlName="reference" />
+                </c-col>
+                <c-col xs="12" md="6">
+                  <label for="refexterne" class="form-label">Référence Externe</label>
+                  <input cFormControl id="refexterne" type="text" formControlName="refexterne" />
+                </c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="6">
+                  <label for="refCommande" class="form-label">Référence Commande</label>
+                  <input cFormControl id="refCommande" type="text" formControlName="refCommande" />
+                </c-col>
+                <c-col xs="12" md="6">
+                  <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
+                  <input cFormControl id="date" type="date" formControlName="date" />
+                </c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="6">
+                  <label for="natureLivraison" class="form-label">Nature Livraison</label>
+                  <input cFormControl id="natureLivraison" type="text" formControlName="natureLivraison" />
+                </c-col>
+                <c-col xs="12" md="6">
+                  <label for="etat" class="form-label">État</label>
+                  <input cFormControl id="etat" type="text" formControlName="etat" />
+                </c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12">
+                  <label for="observations" class="form-label">Observations</label>
+                  <textarea cFormControl id="observations" rows="3" formControlName="observations"></textarea>
+                </c-col>
+              </c-row>
+            </ng-container>
+
+            <ng-container *ngIf="step === 2">
+              <c-row class="mb-3">
+                <c-col xs="12" md="3"><label class="form-label">partieIntId</label><input cFormControl type="number" formControlName="partieIntId" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">idDepot</label><input cFormControl type="number" formControlName="idDepot" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">idCamion</label><input cFormControl type="number" formControlName="idCamion" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">idRemorque</label><input cFormControl type="number" formControlName="idRemorque" /></c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="3"><label class="form-label">idChauffeur</label><input cFormControl type="number" formControlName="idChauffeur" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">Camion</label><input cFormControl type="text" formControlName="camion" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">Chauffeur</label><input cFormControl type="text" formControlName="chauffeur" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">Remorque</label><input cFormControl type="text" formControlName="remorque" /></c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="6"><label class="form-label">Transporteur</label><input cFormControl type="text" formControlName="transporteur" /></c-col>
+                <c-col xs="12" md="6"><label class="form-label">tourneeId</label><input cFormControl type="number" formControlName="tourneeId" /></c-col>
+              </c-row>
+            </ng-container>
+
+            <ng-container *ngIf="step === 3">
+              <c-row class="mb-3">
+                <c-col xs="12" md="3"><label class="form-label">modepaiementId</label><input cFormControl type="number" formControlName="modepaiementId" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">marcheId</label><input cFormControl type="number" formControlName="marcheId" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">reglementId</label><input cFormControl type="number" formControlName="reglementId" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">boutiqueId</label><input cFormControl type="number" formControlName="boutiqueId" /></c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="3"><label class="form-label">devise</label><input cFormControl type="number" formControlName="devise" /></c-col>
+                <c-col xs="12" md="3"><label class="form-label">tauxConversion</label><input cFormControl type="number" formControlName="tauxConversion" /></c-col>
+                <c-col xs="12" md="6"><label class="form-label">numCommandeClient</label><input cFormControl type="text" formControlName="numCommandeClient" /></c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="4"><label class="form-label">referenceBlManuel</label><input cFormControl type="text" formControlName="referenceBlManuel" /></c-col>
+                <c-col xs="12" md="4"><label class="form-label">numTelPassager</label><input cFormControl type="text" formControlName="numTelPassager" /></c-col>
+                <c-col xs="12" md="4"><label class="form-label">emailPassager</label><input cFormControl type="email" formControlName="emailPassager" /></c-col>
+              </c-row>
+              <c-row class="mb-3">
+                <c-col xs="12" md="8"><label class="form-label">adressePassager</label><input cFormControl type="text" formControlName="adressePassager" /></c-col>
+                <c-col xs="12" md="4"><label class="form-label">userName</label><input cFormControl type="text" formControlName="userName" /></c-col>
+              </c-row>
+            </ng-container>
+
+            <!-- Erreurs globales -->
+            <c-alert *ngIf="error$ | async as error" color="danger" class="mb-3">
+              {{ error }}
+            </c-alert>
+
+            <!-- Boutons d'action -->
+            <div class="d-flex gap-2">
+              <button type="button" cButton color="light" (click)="previousStep()" [disabled]="step === 1 || (isLoading$ | async)">
+                Précédent
+              </button>
+              <button type="button" cButton color="primary" (click)="nextStep()" *ngIf="step < maxStep" [disabled]="isLoading$ | async">
+                Suivant
+              </button>
+              <button
+                type="submit"
+                cButton
+                color="success"
+                [disabled]="form.invalid || (isLoading$ | async)"
+              >
+                <span *ngIf="!(isLoading$ | async)">
+                  {{ ordreId ? 'Mettre à jour' : 'Créer' }}
+                </span>
+                <span *ngIf="isLoading$ | async">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  En cours...
+                </span>
+              </button>
+              <button
+                type="button"
+                cButton
+                color="secondary"
+                (click)="onCancel()"
+                [disabled]="isLoading$ | async"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</c-container>

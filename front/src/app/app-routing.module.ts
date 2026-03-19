@@ -34,6 +34,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'ordres-transport',
+        loadChildren: () =>
+          import('./features/ordres-transport/ordres-transport.module').then((m) => m.OrdresTransportModule),
+        data: {
+          title: 'Ordres de Transport'
+        }
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
