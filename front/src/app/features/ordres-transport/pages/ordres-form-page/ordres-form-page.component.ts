@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { OrdresTransportFacade } from '../../state/ordres-transport.facade';
 import {
@@ -44,7 +44,7 @@ export class OrdresFormPageComponent implements OnInit, OnDestroy {
           if (this.ordreId) {
             return this.facade.loadOrdreById(this.ordreId);
           }
-          return new Promise<OrdreTransportRead | null>(resolve => resolve(null));
+          return of(null);
         }),
         takeUntil(this.destroy$)
       )

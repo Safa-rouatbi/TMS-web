@@ -17,67 +17,84 @@ export class OrdresTransportStore {
     filter: ''
   };
 
-  private readonly stateSubject = new BehaviorSubject<OrdresTransportState>(this.initialState);
+  private state: OrdresTransportState = { ...this.initialState };
+
+  private readonly stateSubject = new BehaviorSubject<OrdresTransportState>(this.state);
+  private readonly ordresSubject = new BehaviorSubject<OrdreTransportRead[]>(this.state.ordres);
+  private readonly selectedOrdreSubject = new BehaviorSubject<OrdreTransportRead | null>(this.state.selectedOrdre);
+  private readonly isLoadingSubject = new BehaviorSubject<boolean>(this.state.isLoading);
+  private readonly errorSubject = new BehaviorSubject<string | null>(this.state.error);
+  private readonly filterSubject = new BehaviorSubject<string>(this.state.filter);
+
+  private emitAll(): void {
+    this.stateSubject.next(this.state);
+    this.ordresSubject.next(this.state.ordres);
+    this.selectedOrdreSubject.next(this.state.selectedOrdre);
+    this.isLoadingSubject.next(this.state.isLoading);
+    this.errorSubject.next(this.state.error);
+    this.filterSubject.next(this.state.filter);
+  }
+
   public readonly state$: Observable<OrdresTransportState> = this.stateSubject.asObservable();
-
-  // Sélecteurs pour les besoins courants
-  get ordres$(): Observable<OrdreTransportRead[]> {
-    return new Observable(observer => {
-      this.state$.subscribe(state => observer.next(state.ordres));
-    });
-  }
-
-  get selectedOrdre$(): Observable<OrdreTransportRead | null> {
-    return new Observable(observer => {
-      this.state$.subscribe(state => observer.next(state.selectedOrdre));
-    });
-  }
-
-  get isLoading$(): Observable<boolean> {
-    return new Observable(observer => {
-      this.state$.subscribe(state => observer.next(state.isLoading));
-    });
-  }
-
-  get error$(): Observable<string | null> {
-    return new Observable(observer => {
-      this.state$.subscribe(state => observer.next(state.error));
-    });
-  }
+  public readonly ordres$: Observable<OrdreTransportRead[]> = this.ordresSubject.asObservable();
+  public readonly selectedOrdre$: Observable<OrdreTransportRead | null> = this.selectedOrdreSubject.asObservable();
+  public readonly isLoading$: Observable<boolean> = this.isLoadingSubject.asObservable();
+  public readonly error$: Observable<string | null> = this.errorSubject.asObservable();
+  public readonly filter$: Observable<string> = this.filterSubject.asObservable();
 
   get currentState(): OrdresTransportState {
-    return this.stateSubject.getValue();
+    return this.state;
   }
 
   /**
    * Mise à jour du state
    */
   setState(partialState: Partial<OrdresTransportState>): void {
-    const currentState = this.currentState;
-    this.stateSubject.next({
-      ...currentState,
+    this.state = {
+      ...this.state,
       ...partialState
-    });
+    };
+    this.emitAll();
   }
 
   setOrdres(ordres: OrdreTransportRead[]): void {
-    this.setState({ ordres });
+    this.state = {
+      ...this.state,
+      ordres
+    };
+    this.emitAll();
   }
 
   setSelectedOrdre(ordreRead: OrdreTransportRead | null): void {
-    this.setState({ selectedOrdre: ordreRead });
+    this.state = {
+      ...this.state,
+      selectedOrdre: ordreRead
+    };
+    this.emitAll();
   }
 
   setLoading(isLoading: boolean): void {
-    this.setState({ isLoading });
+    this.state = {
+      ...this.state,
+      isLoading
+    };
+    this.emitAll();
   }
 
   setError(error: string | null): void {
-    this.setState({ error });
+    this.state = {
+      ...this.state,
+      error
+    };
+    this.emitAll();
   }
 
   setFilter(filter: string): void {
-    this.setState({ filter });
+    this.state = {
+      ...this.state,
+      filter
+    };
+    this.emitAll();
   }
 
   addOrdre(ordre: OrdreTransportRead): void {
@@ -96,6 +113,10 @@ export class OrdresTransportStore {
   }
 
   reset(): void {
-    this.stateSubject.next(this.initialState);
+    this.state = {
+      ...this.initialState,
+      ordres: [...this.initialState.ordres]
+    };
+    this.emitAll();
   }
 }

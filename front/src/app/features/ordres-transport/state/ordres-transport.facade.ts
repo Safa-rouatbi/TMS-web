@@ -50,10 +50,9 @@ export class OrdresTransportFacade {
   loadOrdres(reference?: string, etat?: string): Observable<OrdreTransportRead[]> {
     this.store.setLoading(true);
     this.store.setError(null);
+
     return this.api.getAll(reference, etat).pipe(
-      tap(ordres => {
-        this.store.setOrdres(ordres);
-      }),
+      tap(ordres => this.store.setOrdres(ordres)),
       catchError(error => {
         const errorMsg = error?.error?.message || 'Erreur lors du chargement';
         this.store.setError(errorMsg);
@@ -66,10 +65,9 @@ export class OrdresTransportFacade {
   loadOrdreById(id: number): Observable<OrdreTransportRead> {
     this.store.setLoading(true);
     this.store.setError(null);
+
     return this.api.getById(id).pipe(
-      tap(ordre => {
-        this.store.setSelectedOrdre(ordre);
-      }),
+      tap(ordre => this.store.setSelectedOrdre(ordre)),
       catchError(error => {
         const errorMsg = error?.error?.message || 'Erreur lors du chargement';
         this.store.setError(errorMsg);
@@ -82,10 +80,9 @@ export class OrdresTransportFacade {
   createOrdre(dto: OrdreTransportCreateDTO): Observable<OrdreTransportRead> {
     this.store.setLoading(true);
     this.store.setError(null);
+
     return this.api.create(dto).pipe(
-      tap(ordre => {
-        this.store.addOrdre(ordre);
-      }),
+      tap(ordre => this.store.addOrdre(ordre)),
       catchError(error => {
         const errorMsg = error?.error?.message || 'Erreur lors de la création';
         this.store.setError(errorMsg);
@@ -98,10 +95,9 @@ export class OrdresTransportFacade {
   updateOrdre(id: number, dto: OrdreTransportUpdateDTO): Observable<OrdreTransportRead> {
     this.store.setLoading(true);
     this.store.setError(null);
+
     return this.api.update(id, dto).pipe(
-      tap(ordre => {
-        this.store.updateOrdre(ordre);
-      }),
+      tap(ordre => this.store.updateOrdre(ordre)),
       catchError(error => {
         const errorMsg = error?.error?.message || 'Erreur lors de la mise à jour';
         this.store.setError(errorMsg);
@@ -114,10 +110,9 @@ export class OrdresTransportFacade {
   deleteOrdre(id: number): Observable<void> {
     this.store.setLoading(true);
     this.store.setError(null);
+
     return this.api.delete(id).pipe(
-      tap(() => {
-        this.store.removeOrdre(id);
-      }),
+      tap(() => this.store.removeOrdre(id)),
       catchError(error => {
         const errorMsg = error?.error?.message || 'Erreur lors de la suppression';
         this.store.setError(errorMsg);
@@ -127,9 +122,7 @@ export class OrdresTransportFacade {
     );
   }
 
-  /**
-   * === Détails ===
-   */
+
   getDetails(ordreId: number): Observable<OrdreDetailRead[]> {
     return this.api.getDetails(ordreId);
   }
@@ -139,185 +132,69 @@ export class OrdresTransportFacade {
   }
 
   createDetail(ordreId: number, dto: OrdreDetailCreateDTO): Observable<OrdreDetailRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.createDetail(ordreId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la création';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.createDetail(ordreId, dto);
   }
 
   updateDetail(ordreId: number, detailId: number, dto: OrdreDetailUpdateDTO): Observable<OrdreDetailRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.updateDetail(ordreId, detailId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la mise à jour';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.updateDetail(ordreId, detailId, dto);
   }
 
   deleteDetail(ordreId: number, detailId: number): Observable<void> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.deleteDetail(ordreId, detailId).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la suppression';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.deleteDetail(ordreId, detailId);
   }
 
-  /**
-   * === Lignes ===
-   */
+  
   getLignes(ordreId: number, detailId: number): Observable<OrdreDetailLigneRead[]> {
     return this.api.getLignes(ordreId, detailId);
   }
 
   createLigne(ordreId: number, detailId: number, dto: OrdreDetailLigneCreateDTO): Observable<OrdreDetailLigneRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.createLigne(ordreId, detailId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la création';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.createLigne(ordreId, detailId, dto);
   }
 
   updateLigne(ordreId: number, detailId: number, ligneId: number, dto: OrdreDetailLigneUpdateDTO): Observable<OrdreDetailLigneRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.updateLigne(ordreId, detailId, ligneId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la mise à jour';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.updateLigne(ordreId, detailId, ligneId, dto);
   }
 
   deleteLigne(ordreId: number, detailId: number, ligneId: number): Observable<void> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.deleteLigne(ordreId, detailId, ligneId).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la suppression';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.deleteLigne(ordreId, detailId, ligneId);
   }
 
-  /**
-   * === Produits Détails ===
-   */
+
   getProduitsDetails(ordreId: number, detailId: number): Observable<ProduitDetailRead[]> {
     return this.api.getProduitsDetails(ordreId, detailId);
   }
 
   createProduitDetail(ordreId: number, detailId: number, dto: ProduitDetailCreateDTO): Observable<ProduitDetailRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.createProduitDetail(ordreId, detailId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la création';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.createProduitDetail(ordreId, detailId, dto);
   }
 
   updateProduitDetail(ordreId: number, detailId: number, produitDetailId: number, dto: ProduitDetailUpdateDTO): Observable<ProduitDetailRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.updateProduitDetail(ordreId, detailId, produitDetailId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la mise à jour';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.updateProduitDetail(ordreId, detailId, produitDetailId, dto);
   }
 
   deleteProduitDetail(ordreId: number, detailId: number, produitDetailId: number): Observable<void> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.deleteProduitDetail(ordreId, detailId, produitDetailId).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la suppression';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.deleteProduitDetail(ordreId, detailId, produitDetailId);
   }
 
-  /**
-   * === Articles ===
-   */
+ 
   getArticles(ordreId: number, detailId: number): Observable<ArticleProduitRead[]> {
     return this.api.getArticles(ordreId, detailId);
   }
 
   createArticle(ordreId: number, detailId: number, dto: ArticleProduitCreateDTO): Observable<ArticleProduitRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.createArticle(ordreId, detailId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la création';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.createArticle(ordreId, detailId, dto);
   }
 
   updateArticle(ordreId: number, detailId: number, articleId: number, dto: ArticleProduitUpdateDTO): Observable<ArticleProduitRead> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.updateArticle(ordreId, detailId, articleId, dto).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la mise à jour';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.updateArticle(ordreId, detailId, articleId, dto);
   }
 
   deleteArticle(ordreId: number, detailId: number, articleId: number): Observable<void> {
-    this.store.setLoading(true);
-    this.store.setError(null);
-    return this.api.deleteArticle(ordreId, detailId, articleId).pipe(
-      catchError(error => {
-        const errorMsg = error?.error?.message || 'Erreur lors de la suppression';
-        this.store.setError(errorMsg);
-        return throwError(() => error);
-      }),
-      finalize(() => this.store.setLoading(false))
-    );
+    return this.api.deleteArticle(ordreId, detailId, articleId);
   }
 
-  /**
-   * === Utilitaires ===
-   */
+  
   selectOrdre(ordre: OrdreTransportRead | null): void {
     this.store.setSelectedOrdre(ordre);
   }
